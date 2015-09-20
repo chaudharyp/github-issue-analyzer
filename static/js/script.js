@@ -17,6 +17,8 @@ $(function() {
 
 	$("#btn-analyze").click(function() {
 		init();
+		$("#ajax-loader").show();
+		$("#results").hide();
 		var publicRepoUrl = $("#input-url").val();
 
 		var repoUrlSegments = publicRepoUrl.split("/");
@@ -42,7 +44,8 @@ $(function() {
 			}
 		}).done(function(issues) {
 			_.each(issues, function(issue) {
-				repoIssues.push(issue);
+				if(issue.pull_request == undefined)
+					repoIssues.push(issue);
 			});
 			if(issues.length == recordsPerPage)
 				getIssues(repoOwner, repoName, issueState, ++pageNumber, recordsPerPage);
@@ -80,6 +83,7 @@ $(function() {
 		$("#issues-in-last-24-hours .panel-body").text(issuesInLast24Hours);
 		$("#issues-between-24-hours-and-7-days .panel-body").text(issuesBetween24HoursAnd7Days);
 		$("#issues-more-than-7-days .panel-body").text(issuesMoreThan7Days);
+		$("#ajax-loader").hide();
 		$("#results").show();
 	}
 });
