@@ -18,5 +18,5 @@ Find the app at: [https://github-issue-analyzer.herokuapp.com](https://github-is
 Improvements that can be done
 -----------------------------
 * Using a JavaScript framework like AngularJS/React to make the code cleaner and for better interaction between DOM and JS.
-* Adding more data and develop the app into a complete analytics app for a particular repo/owner. GitHub API provides a endpoints for a lot of data.
+* Adding more data and develop the app into a complete analytics app for a particular repo/owner. GitHub API provides endpoints for a lot of data.
 * Make this app more user-friendly and engaging.
