@@ -59,9 +59,8 @@ $(function() {
 			}
 		}).done(function(issues) {
 			// Looping through the issues returned by GitHub API and filtering out the issues which are actually pull requests. Specified in https://developer.github.com/v3/issues/#list-issues
-			_.each(issues, function(issue) {
-				if(issue.pull_request == undefined)
-					repoIssues.push(issue);
+			repoIssues = _.filter(issues, function(issue) {
+				return issue.pull_request == undefined;
 			});
 
 			// Getting more issues, if there are 100 issues returned. 100 issues is the max no of issues returned by the GitHub API per page.
