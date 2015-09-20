@@ -13,7 +13,7 @@ Solution explanation
 * Gunicorn is being used as the server to host the app.
 * The data for a particualar repository is fetched using AJAX.
 
-Find the app at: [https://github-issue-analyzer.herokuapp.com](https://github-issue-analyzer.herokuapp.com)
+Find the app at: <a href="https://github-issue-analyzer.herokuapp.com" target="_blank">https://github-issue-analyzer.herokuapp.com</a>
 
 Improvements that can be done
 -----------------------------
