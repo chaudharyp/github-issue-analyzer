@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+
+<html lang="en">
+	<head>
+		<title>GitHub Issue Analyzer</title>
+		
+		<link rel="stylesheet" type="text/css" href="http://getbootstrap.com/dist/css/bootstrap.min.css">
+
+		<link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+
+		<link rel="stylesheet" type="text/css" href="../static/css/styles.css">
+	</head>
+
+	<body>
+		<div class="container">
+			<div class="header">
+				<h3 class="text-muted mid-header">GitHub Issue Analyzer</h3>
+			</div>
+
+			<div class="jumbotron">
+        		<input type="text" name="inputUrl" id="input-url" class="form-control" placeholder="GitHub Public Repository URL" required autofocus>
+         
+        		<button id="btn-analyze" class="btn btn-lg btn-primary btn-block" type="button">Analyze</button>
+      		</div>
+
+      		<div id="results" style="display: none;">
+      			<div class="panel panel-info" id="total-open-issues">
+  					<div class="panel-heading">
+    					<h3 class="panel-title">Total open issues</h3>
+  					</div>
+  					<div class="panel-body"></div>
+				</div>
+
+      			<div class="panel panel-success" id="issues-in-last-24-hours">
+  					<div class="panel-heading">
+    					<h3 class="panel-title">Issues opened in last 24 hours</h3>
+  					</div>
+  					<div class="panel-body"></div>
+				</div>
+
+
+      			<div class="panel panel-warning" id="issues-between-24-hours-and-7-days">
+  					<div class="panel-heading">
+    					<h3 class="panel-title">Issues opened between 24 hours and 7 days</h3>
+  					</div>
+  					<div class="panel-body"></div>
+				</div>
+
+
+      			<div class="panel panel-danger" id="issues-more-than-7-days">
+  					<div class="panel-heading">
+    					<h3 class="panel-title">Issues opened more than 7 days ago</h3>
+  					</div>
+  					<div class="panel-body"></div>
+				</div>
+      		</div>
+		</div>
+	</body>
+
+	<script type="text/javascript" src="../static/js/jquery-2.1.4.min.js"></script>
+	<script type="text/javascript" src="../static/js/script.js"></script>
+	<script type="text/javascript" src="../static/js/underscore-min.js"></script>
+</html>
