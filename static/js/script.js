@@ -1,11 +1,13 @@
 $(function() {
-	var pageNumber = 1;
-	var recordsPerPage = 100;
-	var issueState = "open";
-	var repoOwner = "";
-	var repoName = "";
-	var repoIssues = [];
+	var pageNumber;
+	var recordsPerPage;
+	var issueState;
+	var repoOwner;
+	var repoName;
+	var repoIssues;
+	init();
 
+	// Using a function to initialize the vars
 	function init() {
 		pageNumber = 1;
 		recordsPerPage = 100;
@@ -13,29 +15,42 @@ $(function() {
 		repoOwner = "";
 		repoName = "";
 		repoIssues = [];
+		$("#results").hide();
+		$("#results-error").hide();
 	}
 
+	// Clicking the Analyze button on enter key press
+	$("#input-url").keyup(function(event) {
+		if(event.keyCode == 13) {
+			$("#btn-analyze").click();
+		}
+	});
+
+	// Analyze button click event handler
 	$("#btn-analyze").click(function() {
 		init();
 		$("#ajax-loader").show();
-		$("#results").hide();
+
+		// Fetching the URL entered in the text box
 		var publicRepoUrl = $("#input-url").val();
 
+		// Fetching the GitHub repo owner and name from the URL entered
 		var repoUrlSegments = publicRepoUrl.split("/");
 		repoOwner = repoUrlSegments[3];
 		repoName = repoUrlSegments[4];
 
+		// Fetching the issues for a particular repo owner and name
 		getIssues(repoOwner, repoName, issueState, pageNumber, recordsPerPage);
 	});
 
+	// Fetches the issues for a particular repo owner and name. Accepts a few other parameters to send to the GitHub API
 	function getIssues(repoOwner, repoName, issueState, pageNumber, recordsPerPage) {
-		if(typeof(repoOwner) === "undefined" || repoOwner === "") return "Repository owner must be specified";
-		if(typeof(repoName) === "undefined" || repoName === "") return "Repository name must be specified";
-
+		// Setting the default values when these are not passed to the function
 		if(typeof(pageNumber) === "undefined") pageNumber = 1;
 		if(typeof(recordsPerPage) === "undefined") recordsPerPage = 100;
 		if(typeof(issueState) === "undefined") issueState = "open";
 
+		// AJAX call to the GitHub API. Usage: https://developer.github.com/v3/issues/
 		$.ajax({
 			url: "https://api.github.com/repos/" + repoOwner + "/" + repoName + "/issues?state=" + issueState + "&page=" + pageNumber + "&per_page=" + recordsPerPage,
 			type: "GET",
@@ -43,17 +58,25 @@ $(function() {
 				xhr.setRequestHeader('Accept', 'application/vnd.github.v3+json')
 			}
 		}).done(function(issues) {
+			// Looping through the issues returned by GitHub API and filtering out the issues which are actually pull requests. Specified in https://developer.github.com/v3/issues/#list-issues
 			_.each(issues, function(issue) {
 				if(issue.pull_request == undefined)
 					repoIssues.push(issue);
 			});
+
+			// Getting more issues, if there are 100 issues returned. 100 issues is the max no of issues returned by the GitHub API per page.
+			// If less than 100 issues returned, then render the issues on the UI
 			if(issues.length == recordsPerPage)
 				getIssues(repoOwner, repoName, issueState, ++pageNumber, recordsPerPage);
 			else
 				renderIssues(repoIssues);
+		}).fail(function() {
+			$("#results-error").show();
+			$("#ajax-loader").hide();
 		});
 	}
 
+	// Calculates the open issues and renders them on the UI
 	function renderIssues(repoIssues) {
 		var totalOpenIssues = repoIssues.length;
 		var issuesInLast24Hours = 0;
